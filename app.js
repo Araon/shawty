@@ -5,7 +5,7 @@ const session = require("express-session");
 
 const app = express();
 
-const todoRoutes = require("./routes");
+const shotner = require("./routes");
 
 //middleware
 app.use(express.json());
@@ -28,7 +28,7 @@ app.get("/", (req, res) => {
 });
 
 // use auth routes
-app.use("/shawty", todoRoutes);
+app.use("/shawty", shotner);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

@@ -1,5 +1,5 @@
 const router = require("express").Router();
 
-router.use("/", require("./todo.route"));
+router.use("/", require("./short.route"));
 
 module.exports = router;
