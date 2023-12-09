@@ -1,51 +1,51 @@
 const mongoose = require("mongoose");
 
-mongoose
-    .connect(process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/urlshortner", {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
-    .then(() => {
-        console.log("Connected to DB");
-    })
-    .catch((err) => {
-        console.log("ERROR:", err.message);
-    });
+// shortschema
+/*
+Things to store for url
+- long url
+- short url
+- code
+- expire
+- timestamp
+- isActive
+- clicks
+*/
 
-// todoschema
 const short = new mongoose.Schema({
-    uid: {
-        type: String,
-        required: true,
-    },
-    key: {
-        type: String,
-        required: false,
-    },
     longUrl: {
         type: String,
-        required: true,
+        require: true,
+        unique: false
     },
     shortUrl: {
         type: String,
-        required: false,
+        required: true,
+        unique: true,
     },
-    creationTime: {
+    code: {
         type: String,
-        default: Date.now,
-        required: false,
+        required: true,
+        unique: true,
     },
-    lastUpdated: {
-        type: String,
-        default: Date.now,
+    expire: {
+        type: Date,
         required: false,
+        unique: false,
     },
-    updatedBy: {
-        type: String,
-        required: false,
-        defualt: "System",
+    isActive: {
+        type: Boolean,
+        required: true,
+        unique: true,
+        default: 1,
+
     },
-});
+    clicks: {
+        type: Number,
+        required: true,
+        unique: false,
+    },
+}, { timestamps: true });
 
 const shortdb = mongoose.model("short", short);
 

@@ -1,37 +1,31 @@
-require("dotenv").config({ path: "./config/.env" });
-const express = require("express");
-const logger = require("morgan");
-const session = require("express-session");
+//import express module
+const express = require('express');
 
+//create express app 
 const app = express();
 
-const shotner = require("./routes");
+//To access data from .env file
+const dotenv = require('dotenv');
+dotenv.config();
 
-//middleware
+//import modules
+const cors = require("cors");
+
+app.use(cors());
+
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(logger("dev"));
 
-app.use(
-    session({
-        secret: process.env.SESSION_SECRET,
-        resave: false,
-        saveUninitialized: false,
-    }),
-);
+//require database connection 
+const dbConnect = require('./models/dbConnect');
+// execute database connection 
+dbConnect();  
 
+const port = process.env.PORT || 4000;
 
-PORT = process.env.PORT || 3001;
-
-app.get("/", (req, res) => {
-    res.send("Hello World");
+//create a server
+app.listen(port, (req, res) => {
+    console.log('server listening at port '+ port);
 });
 
-// use auth routes
-app.use("/shawty", shotner);
-
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
-
-module.exports = app;
+const urlRouter = require('./routes')
+app.use(urlRouter);
