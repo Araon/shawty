@@ -21,3 +21,8 @@ response
 ```
 
 When the short url is hit ,it redirected using 302 HTTP status code
+
+## Todo
+- Add Analytics
+- Expiration based short links
+- Performance Improvement 
