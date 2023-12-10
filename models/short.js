@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 
-// shortschema
+
 /*
+// shortschema
 Things to store for url
 - long url
 - short url
@@ -35,15 +36,16 @@ const short = new mongoose.Schema({
     },
     isActive: {
         type: Boolean,
-        required: true,
-        unique: true,
-        default: 1,
+        required: false,
+        unique: false,
+        default: true,
 
     },
     clicks: {
         type: Number,
-        required: true,
+        required: false,
         unique: false,
+        default: 0
     },
 }, { timestamps: true });
 
