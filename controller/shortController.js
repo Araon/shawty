@@ -21,10 +21,14 @@ const createShortURL = async (req, res) => {
     const existingShortURL = await shortdb.findOne({ longUrl: url });
 
     if (existingShortURL) {
-      res.status(200).send(existingShortURL);
+      const response = {
+        key: existingShortURL.code,
+        long_url: existingShortURL.longUrl,
+        short_url: existingShortURL.shortUrl,
+      };
+      res.status(200).send(response);
       return;
     }
-
 
     const key = uuv4().substring(0, 6); // Generate a short key
     const shortURL = `http://localhost:${process.env.PORT}/short/${key}`;
@@ -36,7 +40,14 @@ const createShortURL = async (req, res) => {
     });
 
     const result = await newShortURL.save();
-    res.status(201).send(result);
+
+    const response = {
+      key: result.code,
+      long_url: result.longUrl,
+      short_url: result.shortUrl,
+    };
+
+    res.status(201).send(response);
   } catch (err) {
     res.status(400).send(err.message);
   }
