@@ -6,7 +6,7 @@ const shortController = require('../../../controller/shortController');
 router.get("/", shortController.getAllShortURLs);
 
 // Create a new short URL
-router.post("/short", shortController.createShortURL);
+router.post("/", shortController.createShortURL);
 
 // Redirect to the long URL
 router.get("/:code", shortController.redirectToLongURL);
