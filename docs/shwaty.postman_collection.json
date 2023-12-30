@@ -1,0 +1,103 @@
+{
+	"info": {
+		"_postman_id": "f0822cd1-bee9-47cb-8a99-3ce80e6487fa",
+		"name": "shwaty",
+		"description": "Collection to test URL shortener CRUD operations",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12868701"
+	},
+	"item": [
+		{
+			"name": "Get All Short URLs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/short",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"short"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Short URL",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"url\": \"https://www.example.com\"}"
+				},
+				"url": {
+					"raw": "https://localhost:3305/short/short",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3305",
+					"path": [
+						"short",
+						"short"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Redirect to Long URL",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:3305/short/:code",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3305",
+					"path": [
+						"short",
+						":code"
+					],
+					"variable": [
+						{
+							"key": "code"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/ping",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"ping"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
