@@ -7,7 +7,6 @@ const healthController = (request, response) => {
     };
     try {
         response.send(healthcheck);
-        console.log('used /ping ')
     } catch (error) {
         healthcheck.message = error;
         response.status(503).send();

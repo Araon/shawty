@@ -31,7 +31,8 @@ const createShortURL = async (req, res) => {
     }
 
     const key = uuv4().substring(0, 6); // Generate a short key
-    const shortURL = `http://localhost:${process.env.PORT}/short/${key}`;
+    //const shortURL = `http://localhost:${process.env.PORT}/short/${key}`;
+    const shortURL = `${req.protocol}://${req.get('host')}/short/${key}`;
 
     const newShortURL = new shortdb({
       code: key,
