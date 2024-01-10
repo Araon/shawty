@@ -1,4 +1,11 @@
-This is a basic urlshortner from scratch. It takes in a long url like ``` https://www.youtube.com/watch?v=NpUuuT_EzSs ``` and return something like ``` https://biturl.top/zE3YBr ```
+![Cover](https://i.imgur.com/xE1LjCM.gif)
+
+# Shawty - A very light url shortner with expiration support
+### This is a basic urlshortner from scratch. 
+
+It takes in a long url like ``` https://www.youtube.com/watch?v=NpUuuT_EzSs ``` and return something like ``` https://biturl.top/zE3YBr ```
+
+
 
 This is mainly solution from this coding challenge [write Your Own URL Shortener](https://codingchallenges.fyi/challenges/challenge-url-shortener)
 
