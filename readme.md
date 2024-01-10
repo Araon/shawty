@@ -15,22 +15,24 @@ Below are the endpoint is present
 request
 ```json
 {
-    "url":"https://www.youtube.com/watch?v=NpUuuT_EzSs"
+    "url":"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects",
+    "expire":"2022-10-05T14:48:00.000Z"
 }
 ```
 response
 ```json
 {
-    "key":"zE3YBr",
-    "long_url":"https://www.youtube.com/watch?v=NpUuuT_EzSs",
-    "short_url":"https://localhost:3305/zE3YBr"
+    "key": "79f292",
+    "long_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects",
+    "short_url": "http://localhost:4000/short/79f292",
+    "expire": "2022-10-05T14:48:00.000Z"
 }
 ```
 
 When the short url is hit ,it redirected using 302 HTTP status code
 
 ## Todo
-- Add Analytics
-- Expiration based short links
-- Add redis based caching
-- Test cases
+- [x] Test cases
+- [x] Expiration based short links
+- [ ] Add Analytics
+- [ ] Add redis based caching
