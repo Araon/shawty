@@ -10,5 +10,7 @@ router.post("/", shortController.createShortURL);
 
 // Redirect to the long URL
 router.get("/:code", shortController.redirectToLongURL);
+// Get short URL stats
+router.get('/:code/stats', shortController.getShortURLStats);
 
 module.exports = router;
