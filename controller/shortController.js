@@ -59,6 +59,25 @@ const createShortURL = async (req, res) => {
   }
 };
 
+const getShortURLStats = async (req, res) => {
+  try {
+    const { code } = req.params;
+    const shortURL = await shortdb.findOne({ code });
+
+    if (shortURL) {
+      res.json({
+        clicks: shortURL.clicks || 0,
+        created_at: shortURL.createdAt,
+        expire_at: shortURL.expire,
+      });
+    } else {
+      res.status(404).send("Short URL not found");
+    }
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};
+
 const redirectToLongURL = async (req, res) => {
   try {
     const { code } = req.params;
@@ -67,20 +86,16 @@ const redirectToLongURL = async (req, res) => {
     if (shortURL) {
       // Check if expiration date is less than current date
       if (shortURL.expire && new Date(shortURL.expire) < new Date()) {
-        // Expired, show 404
         res.status(404).send("Short URL has expired");
       } else {
-        // Not expired, update clicks and redirect
         shortURL.clicks = (shortURL.clicks || 0) + 1;
         await shortURL.save();
         res.redirect(302, shortURL.longUrl);
       }
     } else {
-      // Short URL not found
       res.status(404).send("Short URL not found");
     }
   } catch (err) {
-    // Handle other errors
     res.status(500).send(err.message);
   }
 };
@@ -90,4 +105,5 @@ module.exports = {
   getAllShortURLs,
   createShortURL,
   redirectToLongURL,
+  getShortURLStats
 };
