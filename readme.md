@@ -34,5 +34,5 @@ When the short url is hit ,it redirected using 302 HTTP status code
 ## Todo
 - [x] Test cases
 - [x] Expiration based short links
-- [ ] Add Analytics
+- [x] Add Analytics
 - [ ] Add redis based caching
