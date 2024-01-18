@@ -1,12 +1,15 @@
-const { shortdb } = require("../models/short");
+const { Sequelize, DataTypes } = require("sequelize");
+const ShortModel = require("../models/short.model")
+const Short = ShortModel(Sequelize, DataTypes)
 const uuv4 = require("uuid").v4;
 const dotenv = require('dotenv');
 dotenv.config();
 
 
 const getAllShortURLs = async (req, res) => {
+
   try {
-    const shortURLs = await shortdb.find();
+    const shortURLs = await Short.findAll()
     res.send(shortURLs);
   } catch (err) {
     res.status(500).send(err.message);
@@ -15,59 +18,54 @@ const getAllShortURLs = async (req, res) => {
 
 const createShortURL = async (req, res) => {
   try {
-
     const postData = req.body;
+    let key;
+    let insertionSuccessful = false;
 
-    const existingShortURL = await shortdb.findOne({ longUrl: postData.url });
+    while (!insertionSuccessful) {
 
-    if (existingShortURL) {
-      const response = {
-        key: existingShortURL.code,
-        long_url: existingShortURL.longUrl,
-        short_url: existingShortURL.shortUrl,
-        expire: existingShortURL.expire
-      };
-      res.status(200).send(response);
-      return;
+      // Generating a short key
+      // TODO: for now using a uuv4 but need to implement a custom key generation for this 
+      key = uuv4().substring(0, 6);
+
+      try {
+        const newShortURL = await Short.create({
+          code: key,
+          longUrl: postData.url,
+          expire: postData.expire
+        });
+
+        insertionSuccessful = true;
+
+        const response = {
+          key: newShortURL.code,
+          long_url: newShortURL.longUrl,
+          short_url: `${req.protocol}://${req.get('host')}/short/${newShortURL.code}`,
+          expire: newShortURL.expire
+        };
+        console.log('Key generated %s', key)
+        res.status(201).send(response);
+      } catch (insertionError) {
+        console.log('Hash collison occured. Generating new key...')
+      }
     }
-
-    // Generating a short key
-    const key = uuv4().substring(0, 6);
-
-    // Generating a shortUrl using the host and the protocol it's hosted on.
-    const shortURL = `${req.protocol}://${req.get('host')}/short/${key}`;
-
-    const newShortURL = new shortdb({
-      code: key,
-      longUrl: postData.url,
-      shortUrl: shortURL,
-      expire: postData.expire
-    });
-
-    const result = await newShortURL.save();
-
-    const response = {
-      key: result.code,
-      long_url: result.longUrl,
-      short_url: result.shortUrl,
-      expire: result.expire
-    };
-
-    res.status(201).send(response);
   } catch (err) {
     res.status(400).send(err.message);
   }
 };
 
+
 const getShortURLStats = async (req, res) => {
   try {
     const { code } = req.params;
-    const shortURL = await shortdb.findOne({ code });
+    const shortURL = await Short.findOne({
+      where: { code, isActive: true }
+    });
 
     if (shortURL) {
       res.json({
         clicks: shortURL.clicks || 0,
-        created_at: shortURL.createdAt,
+        created_at: shortURL.created,
         expire_at: shortURL.expire,
       });
     } else {
@@ -81,10 +79,12 @@ const getShortURLStats = async (req, res) => {
 const redirectToLongURL = async (req, res) => {
   try {
     const { code } = req.params;
-    const shortURL = await shortdb.findOne({ code, isActive: true });
+
+    const shortURL = await Short.findOne({
+      where: { code, isActive: true }
+    });
 
     if (shortURL) {
-      // Check if expiration date is less than current date
       if (shortURL.expire && new Date(shortURL.expire) < new Date()) {
         res.status(404).send("Short URL has expired");
       } else {
