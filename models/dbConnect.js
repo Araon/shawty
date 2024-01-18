@@ -1,25 +1,13 @@
+// dbConnect.js
+const Sequelize = require('sequelize');
 const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, './.env') });
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
-const mongoose = require("mongoose");
 
-//Create and export a function to house the connection:
-async function dbConnect() {
-  //use mongoose to connect this app to our database on mongoDB using the DB_URL (connection string)
-  const url =process.env.DB_URL
-  mongoose.connect(
-      url,
-      {
-        useNewUrlParser: true,
-      }
-  )
-  .then(() => {
-    console.log("Successfully connected to DB");
-  })
-  .catch((error) => {
-    console.log("Unable to connect to DB");
-    console.error(error);
-  });
-}
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
+  host: process.env.DB_HOST,
+  dialect: 'mysql',
+});
 
-module.exports = dbConnect;
+
+module.exports = sequelize;
