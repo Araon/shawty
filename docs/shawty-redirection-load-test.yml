@@ -1,0 +1,40 @@
+config:
+  target: 'http://localhost:4000'
+  phases:
+    - duration: 25  # Warm-up phase duration 
+      arrivalRate: 5  # Gradually increase arrival rate
+    # - duration: 50  # Peak phase duration 
+    #   arrivalRate: 10  # Sustain maximum arrival rate
+    # - duration: 5
+    #   arrivalRate: 1
+
+scenarios:
+  - flow:
+      # Step 1: Fetch short codes from /short
+      - get:
+          url: '/short'
+          capture:
+            json: '$[*].code'
+            as: 'shortCodes'
+
+      # Step 2: Load test short URLs
+      - loop:
+          - get:
+              url: '/short/{{ item }}'
+          - think: 1  # Add a delay between requests to simulate real-world usage
+
+variables:
+  - name: hotCodes
+    values: ['00063a', '001f08']  # Add short codes that you want to mark as "hot"
+
+hooks:
+  beforeRequest:
+    - function: 'setHotCodeFlag'
+
+functions:
+  setHotCodeFlag: |
+    // Function to set the hotCode flag based on the short code
+    if (config.hotCodes.includes(request.url.replace('/short/', ''))) {
+      // Add a custom attribute to the request object
+      request.hotCode = true;
+    }

@@ -1,7 +1,9 @@
-// requestLogger.js
+const { v4: uuidv4 } = require('uuid');
 
 const requestLogger = (req, res, next) => {
-    console.log(`[${new Date().toUTCString()}] ${req.method} ${req.originalUrl}`);
+    const requestId = uuidv4();
+    req.requestId = requestId;
+    console.debug(`[${requestId}] [${new Date().toUTCString()}] ${req.method} ${req.originalUrl}`);
     next();
 };
 
