@@ -1,15 +1,21 @@
 config:
   target: 'http://localhost:4000'
   phases:
-    - duration: 300  # Warm-up phase duration (5 minutes)
-      arrivalRate: 2  # Gradually increase arrival rate
-    - duration: 600  # Peak phase duration (10 minutes)
+    - duration: 25  # Warm-up phase duration (5 minutes)
+      arrivalRate: 5  # Gradually increase arrival rate
+    - duration: 50  # Peak phase duration (10 minutes)
       arrivalRate: 10  # Sustain maximum arrival rate
+    - duration: 5
+      arrivalRate: 1
+
 
 scenarios:
   - flow:
       - get:
           url: '/short'
+          capture:
+            json: $.code
+            as: 'generatedCode'
       - post:
           url: '/short'
           json:
