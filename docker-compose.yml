@@ -1,0 +1,35 @@
+version: "1.1"
+services:
+  db:
+    build:
+      context: .
+      dockerfile: mysql-dockerfile
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_DB_PASSWORD}
+      MYSQL_USER: ${MYSQL_DB_USER}
+      MYSQL_PASSWORD: ${MYSQL_DB_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DB_NAME}
+    volumes:
+      - ./data:/var/lib/mysql
+    ports:
+      - "${MYSQL_DB_PORT}:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+
+  app:
+    build:
+      context: .
+      dockerfile: app-dockerfile
+    restart: always
+    environment:
+      MYSQL_DB_HOST: db
+      MYSQL_DB_USER: ${MYSQL_DB_USER}
+      MYSQL_DB_PASSWORD: ${MYSQL_DB_PASSWORD}
+      MYSQL_DB_NAME: ${MYSQL_DB_NAME}
+      MYSQL_DB_PORT: ${MYSQL_DB_PORT}
+      PORT: ${PORT}
+    ports:
+      - "${PORT}:${PORT}"
+    depends_on:
+      - db

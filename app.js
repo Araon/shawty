@@ -16,6 +16,9 @@ app.use(express.json());
 app.use(errorHandler);
 app.use(requestLogger);
 
+console.log(process.env.MYSQL_DB_HOST, "app port"+" "+process.env.PORT, process.env.MYSQL_DB_PORT);
+
+
 sequelize
     .authenticate()
     .then(() => {

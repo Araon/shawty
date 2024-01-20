@@ -1,0 +1,9 @@
+FROM mysql:8.0.35
+
+WORKDIR /app
+
+# The MYSQL image runs all .sql, .sql.gz, or .sh scripts found in
+# /docker-entrypoint-initdb.d/ upon initialization if the data directory is 
+# empty.
+
+COPY sql/db-setup.sql /docker-entrypoint-initdb.d/
