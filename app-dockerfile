@@ -1,0 +1,19 @@
+FROM node:alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+EXPOSE ${PORT}
+
+ENV MYSQL_DB_HOST=${MYSQL_DB_HOST}
+ENV MYSQL_DB_USER=${MYSQL_DB_USER}
+ENV MYSQL_DB_PASSWORD=${MYSQL_DB_PASSWORD}
+ENV MYSQL_DB_NAME=${MYSQL_DB_NAME}
+ENV PORT=${PORT}
+
+CMD ["npm", "start"]
