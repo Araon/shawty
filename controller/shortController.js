@@ -32,7 +32,7 @@ const createShortURL = async (req, res) => {
         const newShortURL = await Short.create({
           code: key,
           longUrl: postData.url,
-          expire: postData.expire
+          expire: postData.expire_at
         });
 
         insertionSuccessful = true;
@@ -41,7 +41,7 @@ const createShortURL = async (req, res) => {
           key: newShortURL.code,
           long_url: newShortURL.longUrl,
           short_url: `${req.protocol}://${req.get('host')}/short/${newShortURL.code}`,
-          expire: newShortURL.expire
+          expire_at: newShortURL.expire
         };
         console.log('Key generated %s', key)
         res.status(201).send(response);
