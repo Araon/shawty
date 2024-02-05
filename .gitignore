@@ -3,3 +3,5 @@ node_modules
 .env
 *-lock.json
 /data
+frontend
+shawty.zip
