@@ -35,3 +35,5 @@ app.listen(port, (req, res) => {
 
 const urlRouter = require('./routes')
 app.use(urlRouter);
+
+module.exports = app
