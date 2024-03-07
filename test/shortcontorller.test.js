@@ -20,3 +20,14 @@ describe('Checking the health route', () => {
         
     })
 })
+
+describe('Checking database short code', () => {
+    it('should retun a 200 status code', (done) => {
+        chai.request(app)
+        .get('/short')
+        .end((err, res) => {
+            res.should.have.status(200);
+            done();
+        });
+    })
+})

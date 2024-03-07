@@ -5,6 +5,7 @@ const uuv4 = require("uuid").v4;
 const dotenv = require('dotenv');
 dotenv.config();
 
+const INVALID_URLS = ['localhost']
 
 const getAllShortURLs = async (req, res) => {
 
@@ -22,10 +23,13 @@ const createShortURL = async (req, res) => {
     let key;
     let insertionSuccessful = false;
 
+    if (INVALID_URLS.includes(postData.url) || postData.url.includes('/short')) {
+      return res.status(401).send('Invalid URL. Self url not allowed');
+    }
+
     while (!insertionSuccessful) {
 
       // Generating a short key
-      // TODO: for now using a uuv4 but need to implement a custom key generation for this 
       key = uuv4().substring(0, 6);
 
       try {
