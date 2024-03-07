@@ -1,8 +1,9 @@
 ![Cover](https://i.imgur.com/xE1LjCM.gif)
 
-# Shawty - A very light url shortner with expiration support
-### This is a basic urlshortner from scratch. 
+# Shawty
+<img src="https://skillicons.dev/icons?i=nodejs,mysql,redis,rabbitmq,docker" alt="https://skillicons.dev/icons?i=nodejs,mysql,docker" /> 
 
+A very light url shortner with expiration support
 It takes in a long url like ``` https://www.youtube.com/watch?v=NpUuuT_EzSs ``` and return something like ``` https://biturl.top/zE3YBr ```
 
 
