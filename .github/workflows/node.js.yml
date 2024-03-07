@@ -15,12 +15,12 @@ jobs:
       db:
         image: mysql:8.0.35
         env:
-          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_DB_PASSWORD }}
-          MYSQL_USER: ${{ secrets.MYSQL_DB_USER }}
-          MYSQL_PASSWORD: ${{ secrets.MYSQL_DB_PASSWORD }}
-          MYSQL_DATABASE: ${{ secrets.MYSQL_DB_NAME }}
+          MYSQL_ROOT_PASSWORD: ${{ secrets.GITHUB_TOKEN.MYSQL_DB_PASSWORD }}
+          MYSQL_USER: ${{ secrets.GITHUB_TOKEN.MYSQL_DB_USER }}
+          MYSQL_PASSWORD: ${{ secrets.GITHUB_TOKEN.MYSQL_DB_PASSWORD }}
+          MYSQL_DATABASE: ${{ secrets.GITHUB_TOKEN.MYSQL_DB_NAME }}
         ports:
-          - "${{ secrets.MYSQL_DB_PORT }}:3306"
+          - "3306:3306"
 
     strategy:
       matrix:
