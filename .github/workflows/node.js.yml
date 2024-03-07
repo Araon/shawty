@@ -2,7 +2,7 @@ name: Node.js CI with MySQL
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: [ "master" ]
 
 jobs:
   build:
