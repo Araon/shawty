@@ -11,20 +11,20 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    services:
-      db:
-        image: mysql:8.0.35
-        env:
-          MYSQL_ROOT_PASSWORD: ${{ secrets.GITHUB_TOKEN.MYSQL_DB_PASSWORD }}
-          MYSQL_USER: ${{ secrets.GITHUB_TOKEN.MYSQL_DB_USER }}
-          MYSQL_PASSWORD: ${{ secrets.GITHUB_TOKEN.MYSQL_DB_PASSWORD }}
-          MYSQL_DATABASE: ${{ secrets.GITHUB_TOKEN.MYSQL_DB_NAME }}
-        ports:
-          - "3306:3306"
+    # services:
+    #   db:
+    #     image: mysql:8.0.35
+    #     env:
+    #       MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_DB_PASSWORD }}
+    #       MYSQL_USER: ${{ secrets.MYSQL_DB_USER }}
+    #       MYSQL_PASSWORD: ${{ secrets.MYSQL_DB_PASSWORD }}
+    #       MYSQL_DATABASE: ${{ secrets.MYSQL_DB_NAME }}
+    #     ports:
+    #       - "${{ secrets.MYSQL_DB_PORT }}:3306"
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: [18.20.x]
 
     steps:
     - uses: actions/checkout@v3
